@@ -1,0 +1,26 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+    "backgroundCover.imagePath": "d:\\wallpaper\\102861346_p0.png",
+    "backgroundCover.opacity": 1,
+    "files.autoSave": "afterDelay",
+    "files.autoGuessEncoding": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.smoothScrolling": true,
+    "workbench.list.smoothScrolling": true,
+    "terminal.integrated.smoothScrolling": true,
+    "editor.mouseWheelZoom": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.formatOnSave": true,
+    "diffEditor.wordWrap": "on",
+    "editor.guides.bracketPairs": true,
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.suggestSelection": "recentlyUsed",
+    "window.dialogStyle": "custom",
+    "debug.showBreakpointsInOverviewRuler": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.fontSize": 20,
+    "commentTranslate.hover.enabled": true,
+    "commentTranslate.source": "DarkCWK.youdao-youdao"
+
+}
