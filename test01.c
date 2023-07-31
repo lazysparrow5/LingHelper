@@ -12,6 +12,7 @@ int main(void *a, void *b)
 {
     printf("hello world\n");
     printf("你好世界！\n");
+    printf("那么正好");
     system("pause");
 
     return 0;
