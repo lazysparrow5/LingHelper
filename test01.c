@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 /**
- * @brief 
- * 
- * @param a 
- * @param b 
- * @return int 
+ * @brief 这是一个简单的测试程序
+ *
+ * @param a
+ * @param b
+ * @return int
  */
 int main(void *a, void *b)
 {
