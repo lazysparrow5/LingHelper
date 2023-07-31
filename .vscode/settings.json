@@ -21,6 +21,9 @@
     "workbench.iconTheme": "material-icon-theme",
     "editor.fontSize": 20,
     "commentTranslate.hover.enabled": true,
-    "commentTranslate.source": "DarkCWK.youdao-youdao"
+    "commentTranslate.source": "DarkCWK.youdao-youdao",
+    "files.associations": {
+        "string": "cpp"
+    }
 
 }

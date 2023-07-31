@@ -25,13 +25,11 @@ IMPLEMENT_DYNCREATE(CLingHelperDoc, CDocument)
 BEGIN_MESSAGE_MAP(CLingHelperDoc, CDocument)
 END_MESSAGE_MAP()
 
-
 // CLingHelperDoc 构造/析构
 
 CLingHelperDoc::CLingHelperDoc() noexcept
 {
 	// TODO: 在此添加一次性构造代码
-
 }
 
 CLingHelperDoc::~CLingHelperDoc()
@@ -50,12 +48,9 @@ BOOL CLingHelperDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-
-
 // CLingHelperDoc 序列化
 
-void CLingHelperDoc::Serialize(CArchive& ar)
+void CLingHelperDoc::Serialize(CArchive &ar)
 {
 	if (ar.IsStoring())
 	{
@@ -70,7 +65,7 @@ void CLingHelperDoc::Serialize(CArchive& ar)
 #ifdef SHARED_HANDLERS
 
 // 缩略图的支持
-void CLingHelperDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+void CLingHelperDoc::OnDrawThumbnail(CDC &dc, LPRECT lprcBounds)
 {
 	// 修改此代码以绘制文档数据
 	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
@@ -78,14 +73,14 @@ void CLingHelperDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 	CString strText = _T("TODO: implement thumbnail drawing here");
 	LOGFONT lf;
 
-	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
+	CFont *pDefaultGUIFont = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
 	pDefaultGUIFont->GetLogFont(&lf);
 	lf.lfHeight = 36;
 
 	CFont fontDraw;
 	fontDraw.CreateFontIndirect(&lf);
 
-	CFont* pOldFont = dc.SelectObject(&fontDraw);
+	CFont *pOldFont = dc.SelectObject(&fontDraw);
 	dc.DrawText(strText, lprcBounds, DT_CENTER | DT_WORDBREAK);
 	dc.SelectObject(pOldFont);
 }
@@ -101,7 +96,7 @@ void CLingHelperDoc::InitializeSearchContent()
 	SetSearchContent(strSearchContent);
 }
 
-void CLingHelperDoc::SetSearchContent(const CString& value)
+void CLingHelperDoc::SetSearchContent(const CString &value)
 {
 	if (value.IsEmpty())
 	{
@@ -129,11 +124,10 @@ void CLingHelperDoc::AssertValid() const
 	CDocument::AssertValid();
 }
 
-void CLingHelperDoc::Dump(CDumpContext& dc) const
+void CLingHelperDoc::Dump(CDumpContext &dc) const
 {
 	CDocument::Dump(dc);
 }
 #endif //_DEBUG
-
 
 // CLingHelperDoc 命令

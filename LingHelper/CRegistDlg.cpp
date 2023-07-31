@@ -11,21 +11,16 @@
 
 IMPLEMENT_DYNAMIC(CRegistDlg, CDialogEx)
 
-CRegistDlg::CRegistDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_REGIST, pParent)
-	, m_user(_T(""))
-	, m_newpwdeye(FALSE)
-	, m_ackpwdeye(FALSE)
-	, PasswordFrame(0)
+CRegistDlg::CRegistDlg(CWnd *pParent /*=nullptr*/)
+	: CDialogEx(IDD_REGIST, pParent), m_user(_T("")), m_newpwdeye(FALSE), m_ackpwdeye(FALSE), PasswordFrame(0)
 {
-
 }
 
 CRegistDlg::~CRegistDlg()
 {
 }
 
-void CRegistDlg::DoDataExchange(CDataExchange* pDX)
+void CRegistDlg::DoDataExchange(CDataExchange *pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_CHECK1, m_read);
@@ -36,22 +31,19 @@ void CRegistDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK3, m_ackpwdeye);
 }
 
-
 BEGIN_MESSAGE_MAP(CRegistDlg, CDialogEx)
-	ON_BN_CLICKED(IDC_BUTTON2, &CRegistDlg::OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_CHECK2, &CRegistDlg::OnBnClickedCheck2)
-	ON_BN_CLICKED(IDC_CHECK3, &CRegistDlg::OnBnClickedCheck3)
-	ON_BN_CLICKED(IDC_BUTTON4, &CRegistDlg::OnBnClickedButton4)
+ON_BN_CLICKED(IDC_BUTTON2, &CRegistDlg::OnBnClickedButton2)
+ON_BN_CLICKED(IDC_CHECK2, &CRegistDlg::OnBnClickedCheck2)
+ON_BN_CLICKED(IDC_CHECK3, &CRegistDlg::OnBnClickedCheck3)
+ON_BN_CLICKED(IDC_BUTTON4, &CRegistDlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
-
 // CRegistDlg 消息处理程序
-
 
 void CRegistDlg::OnBnClickedButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//单击确认事件
+	// 单击确认事件
 	UpdateData(true);
 
 	if (m_user.IsEmpty())
@@ -68,7 +60,7 @@ void CRegistDlg::OnBnClickedButton2()
 	}
 	CString ackpwd;
 	m_ackpwd.GetWindowText(ackpwd);
-	if (ackpwd.IsEmpty()||ackpwd!=newpwd)
+	if (ackpwd.IsEmpty() || ackpwd != newpwd)
 	{
 		MessageBox(TEXT("未填写确认密码"));
 		return;
@@ -84,15 +76,14 @@ void CRegistDlg::OnBnClickedButton2()
 	CStringA Tackpwd;
 	Tackpwd = ackpwd;
 	CInfoFile file;
-	file.WritePwd(Tuser.GetBuffer(),Tackpwd.GetBuffer());
+	file.WritePwd(Tuser.GetBuffer(), Tackpwd.GetBuffer());
 	CDialogEx::OnCancel();
 }
-
 
 void CRegistDlg::OnBnClickedCheck2()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//新密码可见点击事件
+	// 新密码可见点击事件
 	UpdateData(true);
 	if (m_newpwdeye)
 	{
@@ -105,21 +96,17 @@ void CRegistDlg::OnBnClickedCheck2()
 	InvalidateRect(NULL);
 }
 
-
-
-
 void CRegistDlg::OnOK()
 {
 	// TODO: 在此添加专用代码和/或调用基类
 
-	//CDialogEx::OnOK();
+	// CDialogEx::OnOK();
 }
-
 
 void CRegistDlg::OnBnClickedCheck3()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//确认密码可见点击事件
+	// 确认密码可见点击事件
 
 	UpdateData(true);
 	if (m_ackpwdeye)
@@ -131,9 +118,7 @@ void CRegistDlg::OnBnClickedCheck3()
 		m_ackpwd.SetPasswordChar(PasswordFrame);
 	}
 	InvalidateRect(NULL);
-
 }
-
 
 BOOL CRegistDlg::OnInitDialog()
 {
@@ -142,10 +127,9 @@ BOOL CRegistDlg::OnInitDialog()
 	// TODO:  在此添加额外的初始化
 	PasswordFrame = m_newpwd.GetPasswordChar();
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// 异常: OCX 属性页应返回 FALSE
+	return TRUE; // return TRUE unless you set the focus to a control
+				 // 异常: OCX 属性页应返回 FALSE
 }
-
 
 void CRegistDlg::OnBnClickedButton4()
 {

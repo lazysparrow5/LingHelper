@@ -27,7 +27,7 @@ Password::Password(uint8_t num)
 	}
 }
 
-Password::Password(Password& pwd)
+Password::Password(Password &pwd)
 {
 	for (int i = 0; i < ROW; i++)
 	{
@@ -38,7 +38,7 @@ Password::Password(Password& pwd)
 	}
 }
 
-Password::Password(char* password)
+Password::Password(char *password)
 {
 	int len = strlen(password);
 	if (len < SIZE)
@@ -53,7 +53,6 @@ Password::Password(char* password)
 		for (int i = 0; i < len; i++)
 		{
 			this->plaintext[i % 4][i / 4] = *(password++);
-
 		}
 		return;
 	}
@@ -66,7 +65,7 @@ Password::Password(char* password)
 	}
 }
 
-Password::Password(const uint8_t* password, int len)
+Password::Password(const uint8_t *password, int len)
 {
 	if (len < SIZE)
 	{
@@ -92,11 +91,9 @@ Password::Password(const uint8_t* password, int len)
 	}
 }
 
-
-
-uint8_t* Password::GetChar()
+uint8_t *Password::GetChar()
 {
-	uint8_t* pwd = new uint8_t[SIZE + 1];
+	uint8_t *pwd = new uint8_t[SIZE + 1];
 	for (int i = 0; i < SIZE; i++)
 	{
 		pwd[i] = this->plaintext[i % 4][i / 4];
@@ -120,10 +117,9 @@ uint8_t Password::Getnum(int site)
 		return plaintext[site / COL][site % COL];
 	}
 	return 0;
-
 }
 
-Password Password::operator^(const Password& pwd)
+Password Password::operator^(const Password &pwd)
 {
 	Password temp;
 	for (int i = 0; i < ROW; i++)
@@ -136,15 +132,15 @@ Password Password::operator^(const Password& pwd)
 	return temp;
 }
 
-Password& Password::operator^=(Password key)
+Password &Password::operator^=(Password key)
 {
 	*this = *this ^ key;
 	return *this;
 }
 
-Password Password::operator*(const Password& pwd)
+Password Password::operator*(const Password &pwd)
 {
-	//在作用域上的乘法
+	// 在作用域上的乘法
 	Password temp;
 	for (int i = 0; i < ROW; i++)
 	{
@@ -159,11 +155,9 @@ Password Password::operator*(const Password& pwd)
 		}
 	}
 	return temp;
-
-
 }
 
-Password& Password::operator*=(Password pwd)
+Password &Password::operator*=(Password pwd)
 {
 	*this = *this * pwd;
 	return *this;
@@ -171,7 +165,7 @@ Password& Password::operator*=(Password pwd)
 
 uint8_t Password::multiply(uint8_t a, uint8_t b)
 {
-	uint8_t temp[8] = { a };
+	uint8_t temp[8] = {a};
 	uint8_t tempmultiply = 0x00;
 	for (int i = 1; i < 8; i++)
 	{
@@ -190,7 +184,7 @@ uint8_t Password::XTIME(uint8_t x)
 	return ((x << 1) ^ ((x & 0x80) ? 0x1b : 0x00));
 }
 
-ostream& operator<<(ostream& out, Password pwd)
+ostream &operator<<(ostream &out, Password pwd)
 {
 	for (int i = 0; i < ROW; i++)
 	{
@@ -204,27 +198,23 @@ ostream& operator<<(ostream& out, Password pwd)
 			{
 				cout << pwd.plaintext[i][j] << " ";
 			}
-
 		}
 		cout << endl;
 	}
 	return out;
 }
 
-
-
-ostream& operator<<(ostream& out, AES aes)
+ostream &operator<<(ostream &out, AES aes)
 {
 	cout << aes.Key;
 	return out;
 }
 
-AES::AES(const Password& key)
+AES::AES(const Password &key)
 {
 	this->Key = key;
 	RoundNum = 0;
 }
-
 
 Password AES::PasswordInit(CString pwd)
 {
@@ -233,22 +223,22 @@ Password AES::PasswordInit(CString pwd)
 	return Password(Tpwd.GetBuffer());
 }
 
-CStringA AES::Encryption(CString pwd, const Password& key)
+CStringA AES::Encryption(CString pwd, const Password &key)
 {
 	CStringA Tpwd;
 	int len = pwd.GetLength();
 	Password password;
-	uint8_t* buf = NULL;
+	uint8_t *buf = NULL;
 	while (len >= 0)
 	{
-		//分割明文
+		// 分割明文
 		password = PasswordInit(pwd.Left(SIZE));
 		pwd.Delete(0, SIZE);
 		len = len - SIZE;
-		//重置密钥
+		// 重置密钥
 		Key = key;
 		RoundNum = 0;
-		//处理password
+		// 处理password
 		InitRound(password);
 		for (int i = 0; i < 9; i++)
 		{
@@ -262,20 +252,20 @@ CStringA AES::Encryption(CString pwd, const Password& key)
 	return Tpwd;
 }
 
-CString AES::Decryption(const char* pwd, const Password& key)
+CString AES::Decryption(const char *pwd, const Password &key)
 {
 	CString str;
 	CStringA Tstr;
 	int len = strlen(pwd);
 	Password password;
-	uint8_t* buf = NULL;
+	uint8_t *buf = NULL;
 	while (len > 0)
 	{
-		//分割密文
-		password = Password((char*)pwd);
+		// 分割密文
+		password = Password((char *)pwd);
 		len = len - SIZE;
 		pwd += SIZE;
-		//重置密钥
+		// 重置密钥
 		Key = key;
 		RoundNum = 0;
 
@@ -290,7 +280,7 @@ CString AES::Decryption(const char* pwd, const Password& key)
 		buf = password.GetChar();
 		Tstr.Append(CStringA(buf));
 	}
-	//裁剪末尾无用信息
+	// 裁剪末尾无用信息
 	len = Tstr.GetAt(Tstr.GetLength() - 1);
 	Tstr.Delete(Tstr.GetLength() - len, len);
 	str = Tstr;
@@ -298,19 +288,17 @@ CString AES::Decryption(const char* pwd, const Password& key)
 	return str;
 }
 
-
-
-void AES::SetKey(const Password& key)
+void AES::SetKey(const Password &key)
 {
 	this->Key = key;
 }
 
-void AES::InitRound(Password& password)
+void AES::InitRound(Password &password)
 {
 	password ^= Key;
 }
 
-void AES::CycleRound(Password& password)
+void AES::CycleRound(Password &password)
 {
 	SubBytes(password);
 	ShiftRows(password);
@@ -319,16 +307,15 @@ void AES::CycleRound(Password& password)
 	password ^= Key;
 }
 
-void AES::FinalRound(Password& password)
+void AES::FinalRound(Password &password)
 {
 	SubBytes(password);
 	ShiftRows(password);
 	AddRoundKey();
 	password ^= Key;
-
 }
 
-void AES::SubBytes(Password& password)
+void AES::SubBytes(Password &password)
 {
 	uint8_t temp = 0;
 	for (int i = 0; i < SIZE; i++)
@@ -338,7 +325,7 @@ void AES::SubBytes(Password& password)
 	}
 }
 
-void AES::ShiftRows(Password& password)
+void AES::ShiftRows(Password &password)
 {
 	for (int i = 0; i < ROW; i++)
 	{
@@ -354,14 +341,14 @@ void AES::ShiftRows(Password& password)
 	}
 }
 
-void AES::MixColumns(Password& password)
+void AES::MixColumns(Password &password)
 {
 	password = SMixCol * password;
 }
 
 void AES::AddRoundKey()
 {
-	uint8_t* buf = NULL;
+	uint8_t *buf = NULL;
 	for (int i = 0; i < COL; i++)
 	{
 		buf = Key.GetChar();
@@ -372,23 +359,22 @@ void AES::AddRoundKey()
 		if (i == 0)
 		{
 			Password Tkey = Key;
-			//字循环
+			// 字循环
 			uint8_t Tnum = Tkey.Getnum(COL - 1);
 			for (int j = 0; j < ROW - 1; j++)
 			{
 				Tkey.Setnum(j * COL + COL - 1, Tkey.Getnum((j + 1) * COL + COL - 1));
 			}
 			Tkey.Setnum((ROW - 1) * COL + COL - 1, Tnum);
-			//字节代换
+			// 字节代换
 			for (int j = 0; j < ROW; j++)
 			{
 				Tnum = SBox[Tkey.Getnum(j * COL + COL - 1)];
 				Tkey.Setnum(j * COL + COL - 1, Tnum);
 			}
-			//轮常量异或
+			// 轮常量异或
 			Tnum = Tkey.Getnum(COL - 1) ^ Rcon[RoundNum];
 			Tkey.Setnum(COL - 1, Tnum);
-
 
 			for (int j = 0; j < ROW; j++)
 			{
@@ -405,16 +391,13 @@ void AES::AddRoundKey()
 			}
 		}
 		Key = Temp;
-
 	}
 	delete[] buf;
 
 	RoundNum++;
-
-
 }
 
-void AES::DeInitRound(Password& password)
+void AES::DeInitRound(Password &password)
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -423,7 +406,7 @@ void AES::DeInitRound(Password& password)
 	password ^= Key;
 }
 
-void AES::DeCycleRound(Password& password)
+void AES::DeCycleRound(Password &password)
 {
 	DeShiftRows(password);
 	DeSubBytes(password);
@@ -432,7 +415,7 @@ void AES::DeCycleRound(Password& password)
 	DeMixColumns(password);
 }
 
-void AES::DeFinalRound(Password& password)
+void AES::DeFinalRound(Password &password)
 {
 	DeShiftRows(password);
 	DeSubBytes(password);
@@ -440,7 +423,7 @@ void AES::DeFinalRound(Password& password)
 	password ^= Key;
 }
 
-void AES::DeSubBytes(Password& password)
+void AES::DeSubBytes(Password &password)
 {
 	uint8_t temp = 0;
 	for (int i = 0; i < SIZE; i++)
@@ -450,7 +433,7 @@ void AES::DeSubBytes(Password& password)
 	}
 }
 
-void AES::DeShiftRows(Password& password)
+void AES::DeShiftRows(Password &password)
 {
 	for (int i = 0; i < ROW; i++)
 	{
@@ -466,7 +449,7 @@ void AES::DeShiftRows(Password& password)
 	}
 }
 
-void AES::DeMixColumns(Password& password)
+void AES::DeMixColumns(Password &password)
 {
 	password = InvSMixColBox * password;
 }

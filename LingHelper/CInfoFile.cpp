@@ -9,10 +9,10 @@ CInfoFile::~CInfoFile()
 {
 }
 
-bool CInfoFile::ReadLogin(CString& name, CString& pwd)
+bool CInfoFile::ReadLogin(CString &name, CString &pwd)
 {
 	ifstream ifs;
-	ifs.open(_F_LOGIN,ios::in);
+	ifs.open(_F_LOGIN, ios::in);
 	if (!ifs.is_open())
 	{
 		return false;
@@ -26,13 +26,11 @@ bool CInfoFile::ReadLogin(CString& name, CString& pwd)
 	return true;
 }
 
-void CInfoFile::WritePwd(char* name, char* pwd)
+void CInfoFile::WritePwd(char *name, char *pwd)
 {
 	ofstream ofs;
 	ofs.open(_F_LOGIN, ios::out);
-	ofs << name<<endl;
-	ofs << pwd <<endl;
+	ofs << name << endl;
+	ofs << pwd << endl;
 	ofs.close();
 }
-
-

@@ -17,18 +17,16 @@
 #define new DEBUG_NEW
 #endif
 
-
 // CLingHelperApp
 
 BEGIN_MESSAGE_MAP(CLingHelperApp, CWinApp)
-	ON_COMMAND(ID_APP_ABOUT, &CLingHelperApp::OnAppAbout)
-	// 基于文件的标准文档命令
-	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
-	// 标准打印设置命令
-	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
+ON_COMMAND(ID_APP_ABOUT, &CLingHelperApp::OnAppAbout)
+// 基于文件的标准文档命令
+ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
+ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+// 标准打印设置命令
+ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
-
 
 // CLingHelperApp 构造
 
@@ -38,14 +36,14 @@ CLingHelperApp::CLingHelperApp() noexcept
 	// 支持重新启动管理器
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
 #ifdef _MANAGED
-	// 如果应用程序是利用公共语言运行时支持(/clr)构建的，则: 
+	// 如果应用程序是利用公共语言运行时支持(/clr)构建的，则:
 	//     1) 必须有此附加设置，“重新启动管理器”支持才能正常工作。
 	//     2) 在您的项目中，您必须按照生成顺序向 System.Windows.Forms 添加引用。
 	System::Windows::Forms::Application::SetUnhandledExceptionMode(System::Windows::Forms::UnhandledExceptionMode::ThrowException);
 #endif
 
 	// TODO: 将以下应用程序 ID 字符串替换为唯一的 ID 字符串；建议的字符串格式
-	//为 CompanyName.ProductName.SubProduct.VersionInformation
+	// 为 CompanyName.ProductName.SubProduct.VersionInformation
 	SetAppID(_T("LingHelper.AppID.NoVersion"));
 
 	// TODO:  在此处添加构造代码，
@@ -56,14 +54,13 @@ CLingHelperApp::CLingHelperApp() noexcept
 
 CLingHelperApp theApp;
 
-
 // CLingHelperApp 初始化
 
 BOOL CLingHelperApp::InitInstance()
 {
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
-	//则需要 InitCommonControlsEx()。  否则，将无法创建窗口。
+	// 则需要 InitCommonControlsEx()。  否则，将无法创建窗口。
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
 	// 将它设置为包括所有要在应用程序中使用的
@@ -71,12 +68,11 @@ BOOL CLingHelperApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
-	//创建登录窗口，并且以模态方式创建
+	// 创建登录窗口，并且以模态方式创建
 	CLoginDlg dlg;
 	dlg.DoModal();
 
 	CWinApp::InitInstance();
-
 
 	// 初始化 OLE 库
 	if (!AfxOleInit())
@@ -100,27 +96,23 @@ BOOL CLingHelperApp::InitInstance()
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
-	LoadStdProfileSettings(4);  // 加载标准 INI 文件选项(包括 MRU)
-
+	LoadStdProfileSettings(4); // 加载标准 INI 文件选项(包括 MRU)
 
 	// 注册应用程序的文档模板。  文档模板
 	// 将用作文档、框架窗口和视图之间的连接
-	CSingleDocTemplate* pDocTemplate;
+	CSingleDocTemplate *pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CLingHelperDoc),
-		RUNTIME_CLASS(CMainFrame),       // 主 SDI 框架窗口
+		RUNTIME_CLASS(CMainFrame), // 主 SDI 框架窗口
 		RUNTIME_CLASS(CLingHelperView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
 
-
 	// 分析标准 shell 命令、DDE、打开文件操作的命令行
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
-
-
 
 	// 调度在命令行中指定的命令。  如果
 	// 用 /RegServer、/Register、/Unregserver 或 /Unregister 启动应用程序，则返回 FALSE。
@@ -135,14 +127,13 @@ BOOL CLingHelperApp::InitInstance()
 
 int CLingHelperApp::ExitInstance()
 {
-	//TODO: 处理可能已添加的附加资源
+	// TODO: 处理可能已添加的附加资源
 	AfxOleTerm(FALSE);
 
 	return CWinApp::ExitInstance();
 }
 
 // CLingHelperApp 消息处理程序
-
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -153,13 +144,16 @@ public:
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ABOUTBOX };
+	enum
+	{
+		IDD = IDD_ABOUTBOX
+	};
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV 支持
 
-// 实现
+	// 实现
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -168,7 +162,7 @@ CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
 {
 }
 
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+void CAboutDlg::DoDataExchange(CDataExchange *pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
@@ -184,6 +178,3 @@ void CLingHelperApp::OnAppAbout()
 }
 
 // CLingHelperApp 消息处理程序
-
-
-
